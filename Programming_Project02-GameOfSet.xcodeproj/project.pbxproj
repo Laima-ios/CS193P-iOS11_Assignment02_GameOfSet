@@ -7,14 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA302CC81FC3B86700CDE0C2 /* SetCardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA302CC71FC3B86700CDE0C2 /* SetCardButton.swift */; };
 		EA352AF81FC33D620049BECC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA352AF71FC33D620049BECC /* AppDelegate.swift */; };
 		EA352AFA1FC33D620049BECC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA352AF91FC33D620049BECC /* ViewController.swift */; };
 		EA352AFD1FC33D620049BECC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA352AFB1FC33D620049BECC /* Main.storyboard */; };
 		EA352AFF1FC33D620049BECC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA352AFE1FC33D620049BECC /* Assets.xcassets */; };
 		EA352B021FC33D620049BECC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA352B001FC33D620049BECC /* LaunchScreen.storyboard */; };
+		EA352B0F1FC34FEF0049BECC /* CardForGameOfSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA352B0E1FC34FEF0049BECC /* CardForGameOfSet.swift */; };
+		EA352B111FC35A590049BECC /* DeckOfCardsForGameOfSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA352B101FC35A590049BECC /* DeckOfCardsForGameOfSet.swift */; };
+		EA352B131FC37BF30049BECC /* EngineForGameOfSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA352B121FC37BF30049BECC /* EngineForGameOfSet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EA302CC71FC3B86700CDE0C2 /* SetCardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCardButton.swift; sourceTree = "<group>"; };
 		EA352AF41FC33D620049BECC /* Programming_Project02-GameOfSet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Programming_Project02-GameOfSet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA352AF71FC33D620049BECC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA352AF91FC33D620049BECC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +27,9 @@
 		EA352AFE1FC33D620049BECC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EA352B011FC33D620049BECC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EA352B031FC33D620049BECC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA352B0E1FC34FEF0049BECC /* CardForGameOfSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardForGameOfSet.swift; sourceTree = "<group>"; };
+		EA352B101FC35A590049BECC /* DeckOfCardsForGameOfSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckOfCardsForGameOfSet.swift; sourceTree = "<group>"; };
+		EA352B121FC37BF30049BECC /* EngineForGameOfSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineForGameOfSet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +62,26 @@
 		EA352AF61FC33D620049BECC /* Programming_Project02-GameOfSet */ = {
 			isa = PBXGroup;
 			children = (
-				EA352AF71FC33D620049BECC /* AppDelegate.swift */,
 				EA352AF91FC33D620049BECC /* ViewController.swift */,
+				EA302CC71FC3B86700CDE0C2 /* SetCardButton.swift */,
 				EA352AFB1FC33D620049BECC /* Main.storyboard */,
+				EA352B121FC37BF30049BECC /* EngineForGameOfSet.swift */,
+				EA352B101FC35A590049BECC /* DeckOfCardsForGameOfSet.swift */,
+				EA352B0E1FC34FEF0049BECC /* CardForGameOfSet.swift */,
 				EA352AFE1FC33D620049BECC /* Assets.xcassets */,
-				EA352B001FC33D620049BECC /* LaunchScreen.storyboard */,
+				EA352B091FC34F3D0049BECC /* Supporting Files */,
 				EA352B031FC33D620049BECC /* Info.plist */,
 			);
 			path = "Programming_Project02-GameOfSet";
+			sourceTree = "<group>";
+		};
+		EA352B091FC34F3D0049BECC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EA352AF71FC33D620049BECC /* AppDelegate.swift */,
+				EA352B001FC33D620049BECC /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,6 +156,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA302CC81FC3B86700CDE0C2 /* SetCardButton.swift in Sources */,
+				EA352B131FC37BF30049BECC /* EngineForGameOfSet.swift in Sources */,
+				EA352B0F1FC34FEF0049BECC /* CardForGameOfSet.swift in Sources */,
+				EA352B111FC35A590049BECC /* DeckOfCardsForGameOfSet.swift in Sources */,
 				EA352AFA1FC33D620049BECC /* ViewController.swift in Sources */,
 				EA352AF81FC33D620049BECC /* AppDelegate.swift in Sources */,
 			);
