@@ -28,8 +28,11 @@ class EngineForGameOfSet: CustomStringConvertible {
 				cardsTakenFromTable.append(cardFromTable)
 			}
 		}
+		score += 3
 		return true
 	}
+	
+	var score: Int = 0
 	
 	func isSet(cards: [CardForGameOfSet]) -> Bool {
 		guard cards.count == 3 else { return false }

@@ -12,15 +12,17 @@ class ViewController: UIViewController {
 
 	@IBOutlet var cardButtons: [SetCardButton]!
 
-	@IBOutlet weak var drawCardsButton: UIButton! {  didSet { setupButtons() } }
-	@IBOutlet weak var hintButton: UIButton!  {  didSet { setupButtons() } }
-	@IBOutlet weak var newGameButton: UIButton! {  didSet { setupButtons() } }
+	@IBOutlet weak var drawCardsButton: UIButton! { didSet { setup(drawCardsButton) } }
+	@IBOutlet weak var hintButton: UIButton! { didSet { setup(hintButton) } }
+	@IBOutlet weak var startNewGameButton: UIButton! { didSet { setup(startNewGameButton) } }
 	
-	func setupButtons() {
-		hintButton.layer.cornerRadius = LayOutMetricsForCardView.cornerRadius
-		hintButton.layer.borderWidth = LayOutMetricsForCardView.borderWidthForDrawButton
-		hintButton.layer.borderColor = LayOutMetricsForCardView.borderColorForDrawButton
+	func setup(_ button: UIButton) {
+		button.layer.cornerRadius = LayOutMetricsForCardView.cornerRadius
+		button.layer.borderWidth = LayOutMetricsForCardView.borderWidthForDrawButton
+		button.layer.borderColor = LayOutMetricsForCardView.borderColorForDrawButton
 	}
+	
+	let gameEngine = EngineForGameOfSet()
 	
 	var selectedButtons = [SetCardButton]() {
 		willSet(willSelectedButtons) {
@@ -45,9 +47,9 @@ class ViewController: UIViewController {
 	
 	@IBOutlet weak var scoreLabel: UILabel!
 	
-	var thereIsASet: Bool = false {
+	var thereIsASet = false {
 		didSet {
-			// setScore
+			scoreLabel.text = "Score: \(gameEngine.score)"
 		}
 	}
 	
@@ -84,18 +86,9 @@ class ViewController: UIViewController {
 		let freeSlotsCount = cardButtons.count - gameEngine.cardsOnTable.count
 		guard freeSlotsCount >= 3, let cards = gameEngine.drawCards()  else { return false }
 		
-		var freeSlots: [SetCardButton] = []
-		if thereIsASet {
-			freeSlots = selectedButtons
-		} else {
-			for cardButton in cardButtons {
-				if cardButton.cardIndex == 0 {
-					freeSlots.append(cardButton)
-				}
-			}
-		}
+		var freeSlots: [SetCardButton] = thereIsASet ? selectedButtons: cardButtons.filter { $0.cardIndex == 0 }
+		
 		for index in cards.indices {
-			print("Index: \(index)")
 			let attributedString = attributedStringFor(cards[index])
 			let setCardButton = freeSlots[index]
 			setCardButton.setAttributedTitle(attributedString, for: .normal)
@@ -105,7 +98,6 @@ class ViewController: UIViewController {
 	}
 	
 	func attributedStringFor(_ card: CardForGameOfSet) -> NSAttributedString {
-	
 		let shape: String = ModelToView.shapes[card.shape]!
 		var returnString: String
 		
@@ -129,7 +121,6 @@ class ViewController: UIViewController {
 		return NSAttributedString(string: returnString, attributes: attributes)
 	}
 	
-	// buttons.cardIndex -> card
 	private func cardsFor(cardIndices: [Int]) -> [CardForGameOfSet] {
 		var cards = [CardForGameOfSet]()
 		for hashValue in cardIndices {
@@ -140,7 +131,7 @@ class ViewController: UIViewController {
 		return cards
 	}
 	
-	let gameEngine = EngineForGameOfSet()
+
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -152,11 +143,7 @@ class ViewController: UIViewController {
 			setCardButton.setAttributedTitle(attributedString, for: .normal)
 			setCardButton.cardIndex = cardsOnTable[index].hashValue
 		}
-
-		print("gameEngine: \n\(gameEngine)")
-//		print("NoOfElements: \(m.deck.cards.count)\n", m)
 	}
-
 }
 
 struct ModelToView {
