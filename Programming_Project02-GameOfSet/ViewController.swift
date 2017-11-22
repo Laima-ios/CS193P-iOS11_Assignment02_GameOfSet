@@ -11,8 +11,13 @@ import UIKit
 class ViewController: UIViewController {
 
 	@IBOutlet var cardButtons: [SetCardButton]!
-
-	@IBOutlet weak var drawCardsButton: UIButton! { didSet { setup(drawCardsButton) } }
+	
+	@IBOutlet weak var drawCardsButton: UIButton! {
+		didSet {
+			setup(drawCardsButton)
+			drawCardsButton!.titleLabel?.numberOfLines = 0
+		}
+	}
 	@IBOutlet weak var hintButton: UIButton! { didSet { setup(hintButton) } }
 	@IBOutlet weak var startNewGameButton: UIButton! { didSet { setup(startNewGameButton) } }
 	
@@ -22,13 +27,25 @@ class ViewController: UIViewController {
 		button.layer.borderColor = LayOutMetricsForCardView.borderColorForDrawButton
 	}
 	
-	let gameEngine = EngineForGameOfSet()
+	var gameEngine: EngineForGameOfSet! {
+		didSet {
+			let cardsOnTable = gameEngine.cardsOnTable
+			thereIsASet = false
+			
+			for index in cardsOnTable.indices {
+				let attributedString = attributedStringFor(cardsOnTable[index])
+				let setCardButton = cardButtons[index]
+				setCardButton.setAttributedTitle(attributedString, for: .normal)
+				setCardButton.cardIndex = cardsOnTable[index].hashValue
+			}
+		}
+	}
 	
 	var selectedButtons = [SetCardButton]() {
 		willSet(willSelectedButtons) {
 			if willSelectedButtons == [] {
 				for button in selectedButtons {
-					button.stateOfSetCard = .unselected
+					button.stateOfSetCardButton = .unselected
 				}
 				if thereIsASet {
 					_ = drawCards()
@@ -38,7 +55,7 @@ class ViewController: UIViewController {
 				let indices = willSelectedButtons.map { $0.cardIndex }
 				let cards = cardsFor(cardIndices: indices)
 				if gameEngine.ifSetThenRemoveFromTable(cards: cards) {
-					_ = willSelectedButtons.map { $0.stateOfSetCard = .selectedAndMatched }
+					_ = willSelectedButtons.map { $0.stateOfSetCardButton = .selectedAndMatched }
 					thereIsASet = true
 				}
 			}
@@ -50,20 +67,25 @@ class ViewController: UIViewController {
 	var thereIsASet = false {
 		didSet {
 			scoreLabel.text = "Score: \(gameEngine.score)"
+			hints.cards = gameEngine.hints
 		}
+	}
+	
+	@IBAction func onNewGameButton(_ sender: UIButton) {
+		gameEngine = EngineForGameOfSet()
 	}
 	
 	@IBAction func onCardButton(_ sender: SetCardButton) {
 		if selectedButtons.count == 3  { selectedButtons = [] }
 		if sender.cardIndex == 0  { return }
 		
-		switch sender.stateOfSetCard {
+		switch sender.stateOfSetCardButton {
 		case .unselected:
-			sender.stateOfSetCard = .selected
+			sender.stateOfSetCardButton = .selected
 			selectedButtons.append(sender)
 		case .selected:
 			if let index = selectedButtons.index(of: sender) {
-				sender.stateOfSetCard = .unselected
+				sender.stateOfSetCardButton = .unselected
 				selectedButtons.remove(at: index)
 			}
 		default: break
@@ -78,13 +100,30 @@ class ViewController: UIViewController {
 		_ = drawCards()
 	}
 	
+	var hints: (cards: [[CardForGameOfSet]], index: Int) = ([[]], 0) {
+		didSet {
+			if hints.index == oldValue.index {
+				hints.index = 0
+			}
+			hintButton!.isEnabled = !hints.cards.isEmpty ? true : false
+			hintButton!.setTitle("hints: \(hints.cards.count)", for: .normal)
+		}
+	}
+	
 	@IBAction func onHintButton(_ sender: UIButton) {
-		
+		selectedButtons = []
+		let cardButtonsWithSet = buttonsFor(cards: hints.cards[hints.index])
+		_ = cardButtonsWithSet.map { $0.stateOfSetCardButton = .selected  }
+		hints.index = hints.index < hints.cards.count - 1 ? hints.index + 1 : 0
+		Timer.scheduledTimer(withTimeInterval: 1, repeats: false) {  timer in
+			_ = cardButtonsWithSet.map { $0.stateOfSetCardButton = .unselected  }
+		}
 	}
 	
 	func drawCards() -> Bool {
 		let freeSlotsCount = cardButtons.count - gameEngine.cardsOnTable.count
 		guard freeSlotsCount >= 3, let cards = gameEngine.drawCards()  else { return false }
+		hints.cards = gameEngine.hints
 		
 		var freeSlots: [SetCardButton] = thereIsASet ? selectedButtons: cardButtons.filter { $0.cardIndex == 0 }
 		
@@ -131,18 +170,20 @@ class ViewController: UIViewController {
 		return cards
 	}
 	
+	private func buttonsFor(cards: [CardForGameOfSet])-> [SetCardButton] {
+		var buttons: [SetCardButton] = []
+		for card in cards {
+			if let button = (cardButtons.filter { $0.cardIndex == card.hashValue }).first  {
+				buttons.append(button)
+			}		
+		}
+		return buttons
+	}
 
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		let cardsOnTable = gameEngine.cardsOnTable
-		
-		for index in cardsOnTable.indices {
-			let attributedString = attributedStringFor(cardsOnTable[index])
-			let setCardButton = cardButtons[index]
-			setCardButton.setAttributedTitle(attributedString, for: .normal)
-			setCardButton.cardIndex = cardsOnTable[index].hashValue
-		}
+		gameEngine = EngineForGameOfSet()
 	}
 }
 
@@ -155,7 +196,7 @@ struct ModelToView {
 
 struct LayOutMetricsForCardView {
 	static var borderWidth: CGFloat = 1.0
-	static var borderWidthIfSelected: CGFloat = 2.0
+	static var borderWidthIfSelected: CGFloat = 3.0
 	static var borderColorIfSelected: CGColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1).cgColor
 	
 	static var borderWidthIfMatched: CGFloat = 4.0

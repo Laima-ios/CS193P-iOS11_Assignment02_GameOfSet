@@ -269,6 +269,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="85" height="35"/>
                                                 <color key="backgroundColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" title="hint"/>
+                                                <state key="disabled" title="hint: 0"/>
                                                 <connections>
                                                     <action selector="onHintButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mKe-jy-bYQ"/>
                                                 </connections>
@@ -278,7 +279,7 @@
                                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" title="new game"/>
                                                 <connections>
-                                                    <action selector="onHintButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zEm-oO-z38"/>
+                                                    <action selector="onNewGameButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7xc-Sa-DGf"/>
                                                 </connections>
                                             </button>
                                         </subviews>

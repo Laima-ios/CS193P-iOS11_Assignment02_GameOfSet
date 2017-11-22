@@ -20,16 +20,15 @@ class SetCardButton: UIButton {
 		
 	}
 	
-	enum StateOfSetCard {
+	enum StateOfSetCardButton {
 		case unselected
 		case selected
 		case selectedAndMatched
-		
 	}
 	
-	var stateOfSetCard: StateOfSetCard = .unselected {
+	var stateOfSetCardButton: StateOfSetCardButton = .unselected {
 		didSet {
-			switch stateOfSetCard {
+			switch stateOfSetCardButton {
 			case .unselected:
 				if oldValue == .selectedAndMatched {
 					setAttributedTitle(NSAttributedString(), for: .normal)
