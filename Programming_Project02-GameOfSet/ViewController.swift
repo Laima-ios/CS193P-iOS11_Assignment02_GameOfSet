@@ -7,7 +7,6 @@
 //
 
 import UIKit
-
 class ViewController: UIViewController {
 
 	@IBOutlet var cardButtons: [SetCardButton]!
@@ -30,7 +29,7 @@ class ViewController: UIViewController {
 	var gameEngine: EngineForGameOfSet! {
 		didSet {
 			let cardsOnTable = gameEngine.cardsOnTable
-			thereIsASet = false
+			hints.cards = gameEngine.hints
 			
 			for index in cardsOnTable.indices {
 				let attributedString = attributedStringFor(cardsOnTable[index])
@@ -44,9 +43,7 @@ class ViewController: UIViewController {
 	var selectedButtons = [SetCardButton]() {
 		willSet(willSelectedButtons) {
 			if willSelectedButtons == [] {
-				for button in selectedButtons {
-					button.stateOfSetCardButton = .unselected
-				}
+				_ = selectedButtons.map { $0.stateOfSetCardButton = .unselected }
 				if thereIsASet {
 					_ = drawCards()
 					thereIsASet = false
@@ -57,6 +54,7 @@ class ViewController: UIViewController {
 				if gameEngine.ifSetThenRemoveFromTable(cards: cards) {
 					_ = willSelectedButtons.map { $0.stateOfSetCardButton = .selectedAndMatched }
 					thereIsASet = true
+					hints.cards = gameEngine.hints
 				}
 			}
 		}
@@ -66,12 +64,18 @@ class ViewController: UIViewController {
 	
 	var thereIsASet = false {
 		didSet {
-			scoreLabel.text = "Score: \(gameEngine.score)"
-			hints.cards = gameEngine.hints
+			scoreLabel.text = "\(gameEngine.score)"
 		}
 	}
 	
 	@IBAction func onNewGameButton(_ sender: UIButton) {
+		thereIsASet = false
+		selectedButtons = []
+		_ = cardButtons.map {
+			$0.stateOfSetCardButton = .unselected
+			$0.setAttributedTitle(NSAttributedString(), for: .normal)
+			$0.cardIndex = 0
+		}
 		gameEngine = EngineForGameOfSet()
 	}
 	
@@ -139,6 +143,7 @@ class ViewController: UIViewController {
 	func attributedStringFor(_ card: CardForGameOfSet) -> NSAttributedString {
 		let shape: String = ModelToView.shapes[card.shape]!
 		var returnString: String
+//		let a = aClosure(3, "6")
 		
 		switch card.number {
 		case .one: returnString = shape
@@ -148,7 +153,7 @@ class ViewController: UIViewController {
 		
 		// objective here is to 'compress' the praragraph lines... 
 		let paragraphStyle = NSMutableParagraphStyle()
-		paragraphStyle.lineHeightMultiple = 0.83
+		paragraphStyle.lineHeightMultiple = 0.80
 
 		let attributes: [NSAttributedStringKey : Any] = [
 			.strokeColor: ModelToView.colors[card.color]!,
