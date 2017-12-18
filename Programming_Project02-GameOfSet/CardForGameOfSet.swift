@@ -19,14 +19,12 @@ struct CardForGameOfSet: Equatable, Hashable ,CustomStringConvertible {
 		return [number.rawValue, color.rawValue, shape.rawValue, fill.rawValue]
 	}
 	
-	var hashValue: Int
 	private static var identifierFactory = 0
-	
-	private static func getUniqueIdentifier() -> Int {
+	let hashValue: Int = {
 		identifierFactory += 1
 		return identifierFactory
-	}
-	
+	}()
+
 	static func ==(lhs: CardForGameOfSet, rhs: CardForGameOfSet) -> Bool {
 		return lhs.hashValue == rhs.hashValue
 	}
@@ -36,7 +34,6 @@ struct CardForGameOfSet: Equatable, Hashable ,CustomStringConvertible {
 	}
 	
 	init(with n: Int, _ c: Int, _ s: Int, _ f: Int) {
-		self.hashValue = CardForGameOfSet.getUniqueIdentifier()
 		self.number = Numbers(rawValue: n)!
 		self.color = Colors(rawValue: c)!
 		self.shape = Shapes(rawValue: s)!
@@ -99,3 +96,10 @@ struct CardForGameOfSet: Equatable, Hashable ,CustomStringConvertible {
 		}
 	}
 }
+
+
+
+
+
+
+
