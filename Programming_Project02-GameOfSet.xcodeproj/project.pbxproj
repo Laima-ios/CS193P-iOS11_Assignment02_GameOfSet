@@ -62,13 +62,12 @@
 		EA352AF61FC33D620049BECC /* Programming_Project02-GameOfSet */ = {
 			isa = PBXGroup;
 			children = (
+				EA352AFB1FC33D620049BECC /* Main.storyboard */,
 				EA352AF91FC33D620049BECC /* ViewController.swift */,
 				EA302CC71FC3B86700CDE0C2 /* SetCardButton.swift */,
-				EA352AFB1FC33D620049BECC /* Main.storyboard */,
 				EA352B121FC37BF30049BECC /* EngineForGameOfSet.swift */,
 				EA352B101FC35A590049BECC /* DeckOfCardsForGameOfSet.swift */,
 				EA352B0E1FC34FEF0049BECC /* CardForGameOfSet.swift */,
-				EA352AFE1FC33D620049BECC /* Assets.xcassets */,
 				EA352B091FC34F3D0049BECC /* Supporting Files */,
 				EA352B031FC33D620049BECC /* Info.plist */,
 			);
@@ -78,6 +77,7 @@
 		EA352B091FC34F3D0049BECC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EA352AFE1FC33D620049BECC /* Assets.xcassets */,
 				EA352AF71FC33D620049BECC /* AppDelegate.swift */,
 				EA352B001FC33D620049BECC /* LaunchScreen.storyboard */,
 			);
